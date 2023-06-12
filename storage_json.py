@@ -1,8 +1,12 @@
-from Movies_App.istorage import IStorage
+from istorage import IStorage
 import json
 
 
 class StorageJson(IStorage):
+    """
+    This class will implement our abstract methods and process only json type data.
+    """
+
     def __init__(self, file_path):
         self.file_path = file_path
         open_data = open(self.file_path)
@@ -42,4 +46,3 @@ class StorageJson(IStorage):
         self.file_path[title]["Rating"] = float(notes)
         with open("data.json", "w") as update_file:
             json.dump(self.file_path, update_file, indent=4)
-

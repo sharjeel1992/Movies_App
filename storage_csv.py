@@ -1,8 +1,11 @@
-from Movies_App.istorage import IStorage
+from istorage import IStorage
 import csv
 
 
 class StorageCsv(IStorage):
+    """
+    This class will implement our abstract methods and process only csv type data
+    """
     def __init__(self, file_path):
         self.file_path = file_path
 

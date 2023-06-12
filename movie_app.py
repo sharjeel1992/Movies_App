@@ -1,8 +1,13 @@
 import requests
 import statistics
+import random
 
 
 class MovieApp:
+    """
+    This class will fetch data and do all the actions regeadless of the fact what type of
+    data we are working on.In our case its json and csv
+    """
     API = 'http://www.omdbapi.com/?apikey=c61fc86&t='
 
     def __init__(self, storage):
@@ -104,6 +109,14 @@ class MovieApp:
         for names in sorted_dict:
             print(names[0], names[1]["Rating"])
 
+    def _random_movie(self):
+        """
+        This function will choose a random movie from the movie list
+        """
+        movies = self._storage.list_movies()
+        random_movie = random.choice(list(movies.keys()))
+        print(f"Random movie: {random_movie}")
+
     def _generate_website(self):
         """
             This function takes data stored in json file and convert the data
@@ -123,6 +136,11 @@ class MovieApp:
         return func_output
 
     def run(self):
+        """
+        This function will print list for the user to choose from and based on user input
+        and using while loop it will keep asking user for input and will do required actions,
+        until user chooses to quit.Exception thrown for non integeral values
+        """
         print("\n** ** ** ** ** My Movies Database ** ** ** ** **")
         while True:
             print("""\nMenu:
@@ -134,9 +152,10 @@ class MovieApp:
 5.Stats
 6.Search movie
 7.Movie sorted by rating
-8.Generate Website\n""")
+8.Random movie
+9.Generate Website\n""")
             try:
-                user_choice = int(input("Enter choice (0-8): "))
+                user_choice = int(input("Enter choice (0-9): "))
                 if user_choice == 0:
                     print("BYE!")
                     break
@@ -155,6 +174,8 @@ class MovieApp:
                 elif user_choice == 7:
                     self._command_rating_sorted()
                 elif user_choice == 8:
+                    self._random_movie()
+                elif user_choice == 9:
                     with open("index_template.html", "r") as html_template:
                         file_reader = html_template.read()
                         desired_output = file_reader.replace("__TEMPLATE_MOVIE_GRID__", self._generate_website())
